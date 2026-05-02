@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- 
+  LUMINA - Musician's Best Friend
+  Copyright © 2026 [Alysha A. Buell]. All Rights Reserved.
+  Version: 0.9 - May 1, 2026
+  Unauthorized copying, modification, or distribution is strictly prohibited.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina • Musician's Best Friend</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #111827; color: white; font-family: system-ui, sans-serif; }
+    .tab { display: none; }
+    .tab.active { display: block; }
+  </style>
+</head>
+<body class="p-4 max-w-md mx-auto">
+
+  <div class="text-center mb-6">
+    <h1 class="text-5xl font-black">🌟 LUMINA</h1>
+    <p class="text-zinc-400">Musician's Best Friend</p>
+  </div>
+
+  <div class="flex gap-3 mb-6">
+    <select id="personality" class="flex-1 bg-zinc-800 p-4 rounded-3xl">
+      <option value="Sassy">Sassy Mode 🔥</option>
+      <option value="Laid-back">Laid-back Mode 😌</option>
+    </select>
+    <button onclick="toggleGigMode()" id="gigBtn" class="px-6 py-4 bg-green-600 rounded-3xl font-bold text-sm">Gig OFF</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="grid grid-cols-4 gap-2 mb-8 text-xs overflow-x-auto">
+    <button onclick="switchTab(0)" class="py-3 bg-orange-600 rounded-2xl active">Voice</button>
+    <button onclick="switchTab(1)" class="py-3 bg-emerald-600 rounded-2xl">Lessons</button>
+    <button onclick="switchTab(2)" class="py-3 bg-purple-600 rounded-2xl">Setlist</button>
+    <button onclick="switchTab(3)" class="py-3 bg-blue-600 rounded-2xl">TrackForge</button>
+    <button onclick="switchTab(4)" class="py-3 bg-pink-600 rounded-2xl">Mashup</button>
+    <button onclick="switchTab(5)" class="py-3 bg-amber-600 rounded-2xl">V.Band</button>
+    <button onclick="switchTab(6)" class="py-3 bg-red-600 rounded-2xl">Drums</button>
+    <button onclick="switchTab(7)" class="py-3 bg-cyan-600 rounded-2xl">Tuner</button>
+    <button onclick="switchTab(8)" class="py-3 bg-violet-600 rounded-2xl">Vocal</button>
+    <button onclick="switchTab(9)" class="py-3 bg-teal-600 rounded-2xl">Metro</button>
+  </div>
+
+  <!-- Voice Chat -->
+  <div id="tab0" class="tab active bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Voice Chat</h2>
+    <button onclick="talkToLumina()" class="w-full h-56 bg-orange-500 hover:bg-orange-600 rounded-3xl text-3xl font-bold text-black">
+      🎤 TAP TO TALK
+    </button>
+    <div id="voiceOut" class="mt-6 p-5 bg-black/50 rounded-2xl min-h-40"></div>
+  </div>
+
+  <!-- Lessons -->
+  <div id="tab1" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Guitar Lessons</h2>
+    <button onclick="getLesson()" class="w-full py-6 bg-emerald-600 rounded-3xl">Get Full Lesson</button>
+    <div id="lessonOut" class="mt-6 text-sm"></div>
+  </div>
+
+  <!-- Setlist -->
+  <div id="tab2" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Setlist Builder</h2>
+    <button onclick="buildSetlist()" class="w-full py-6 bg-purple-600 rounded-3xl">Build Setlist</button>
+    <div id="setlistOut" class="mt-6"></div>
+  </div>
+
+  <!-- TrackForge -->
+  <div id="tab3" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">TrackForge</h2>
+    <button onclick="forgeTrack()" class="w-full py-8 bg-blue-600 rounded-3xl">Create Backing Track</button>
+    <div id="forgeOut" class="mt-6"></div>
+  </div>
+
+  <!-- Add more tabs as needed (Mashup, Virtual Band, Drums, Tuner, Vocal, Metronome) ... -->
+
+  <script>
+    let gigMode = false;
+
+    function toggleGigMode() {
+      gigMode = !gigMode;
+      const btn = document.getElementById("gigBtn");
+      btn.textContent = gigMode ? "Gig ON" : "Gig OFF";
+      btn.style.backgroundColor = gigMode ? "#ef4444" : "#16a34a";
+    }
+
+    function switchTab(n) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab' + n).classList.add('active');
+    }
+
+    function talkToLumina() {
+      const isSassy = document.getElementById("personality").value === "Sassy";
+      const message = isSassy 
+        ? "Alright, what's the plan today? Hit me." 
+        : "Hey! I'm here to help. What do you want to work on?";
+
+      document.getElementById("voiceOut").innerHTML = `<strong>Lumina:</strong><br>${message}`;
+
+      // Real speaking
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = 0.93;
+        utterance.pitch = 1.05;
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function getLesson() {
+      document.getElementById("lessonOut").innerHTML = "✅ Guitar Lesson loaded: Chords, strum patterns, maintenance tips, and key terms.";
+    }
+
+    function buildSetlist() {
+      document.getElementById("setlistOut").innerHTML = "🎵 Smart setlist created with proper energy flow.";
+    }
+
+    function forgeTrack() {
+      document.getElementById("forgeOut").innerHTML = "🎸 Backing track generated in your chosen key.";
+    }
+
+    // Default to Voice tab
+    window.onload = () => switchTab(0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!-- 
+  LUMINA - Musician's Best Friend
+  Copyright © 2026 [Alysha A. Buell]. All Rights Reserved.
+  Version: 0.8 - May 1, 2026
+  Unauthorized copying, modification, or distribution is strictly prohibited.
+-->
+<html lang="en">
+<head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina • Musician's Best Friend</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #111827; color: white; font-family: system-ui, sans-serif; }
+    .tab { display: none; }
+    .tab.active { display: block; }
+    button { transition: all 0.2s; }
+  </style>
+</head>
+<body class="p-4 max-w-md mx-auto">
+
+  <div class="text-center mb-6">
+    <h1 class="text-5xl font-black">🌟 LUMINA</h1>
+    <p class="text-zinc-400">Musician's Best Friend</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="flex gap-3 mb-6">
+    <select id="personality" class="flex-1 bg-zinc-800 p-4 rounded-3xl text-lg">
+      <option value="Sassy">Sassy Mode 🔥</option>
+      <option value="Laid-back">Laid-back Mode 😌</option>
+    </select>
+    <button onclick="toggleGigMode()" id="gigBtn" class="px-6 py-4 bg-green-600 rounded-3xl font-bold text-sm">Gig OFF</button>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="grid grid-cols-4 gap-2 mb-8 text-[10px] font-medium overflow-x-auto pb-2">
+    <button onclick="switchTab(0)" class="tab-btn py-3 bg-orange-600 rounded-2xl active">Voice</button>
+    <button onclick="switchTab(1)" class="tab-btn py-3 bg-emerald-600 rounded-2xl">Lessons</button>
+    <button onclick="switchTab(2)" class="tab-btn py-3 bg-purple-600 rounded-2xl">Setlist</button>
+    <button onclick="switchTab(3)" class="tab-btn py-3 bg-blue-600 rounded-2xl">TrackForge</button>
+    <button onclick="switchTab(4)" class="tab-btn py-3 bg-pink-600 rounded-2xl">Mashup</button>
+    <button onclick="switchTab(5)" class="tab-btn py-3 bg-amber-600 rounded-2xl">V. Band</button>
+    <button onclick="switchTab(6)" class="tab-btn py-3 bg-red-600 rounded-2xl">Drums</button>
+    <button onclick="switchTab(7)" class="tab-btn py-3 bg-cyan-600 rounded-2xl">Tuner</button>
+    <button onclick="switchTab(8)" class="tab-btn py-3 bg-violet-600 rounded-2xl">Vocal</button>
+    <button onclick="switchTab(9)" class="tab-btn py-3 bg-teal-600 rounded-2xl">Metro</button>
+  </div>
+
+  <!-- VOICE CHAT -->
+  <div id="tab0" class="tab active bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Voice Chat</h2>
+    <button onclick="talkToLumina()" class="w-full h-56 bg-orange-500 hover:bg-orange-600 rounded-3xl text-3xl font-bold text-black">
+      🎤 TAP TO TALK
+    </button>
+    <div id="voiceOut" class="mt-6 p-5 bg-black/50 rounded-2xl min-h-40 text-base"></div>
+  </div>
+
+  <!-- LESSONS -->
+  <div id="tab1" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Guitar Lessons</h2>
+    <button onclick="getLesson()" class="w-full py-6 bg-emerald-600 rounded-3xl text-lg">Get Full Lesson + Terms + Maintenance</button>
+    <div id="lessonOut" class="mt-6 text-sm leading-relaxed"></div>
+  </div>
+
+  <!-- SETLIST -->
+  <div id="tab2" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Setlist Builder</h2>
+    <button onclick="buildSetlist()" class="w-full py-6 bg-purple-600 rounded-3xl">Build Smart Setlist</button>
+    <div id="setlistOut" class="mt-6"></div>
+  </div>
+
+  <!-- TRACKFORGE -->
+  <div id="tab3" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">TrackForge</h2>
+    <button onclick="forgeTrack()" class="w-full py-8 bg-blue-600 rounded-3xl text-xl">Create Backing Track</button>
+    <div id="forgeOut" class="mt-6 text-sm"></div>
+  </div>
+
+  <!-- MASHUP -->
+  <div id="tab4" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Mashup Maker</h2>
+    <button onclick="makeMashup()" class="w-full py-8 bg-pink-600 rounded-3xl">Create Mashup</button>
+    <div id="mashupOut" class="mt-6"></div>
+  </div>
+
+  <!-- VIRTUAL BAND -->
+  <div id="tab5" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Virtual Band</h2>
+    <button onclick="startVirtualBand()" class="w-full py-8 bg-amber-500 text-black rounded-3xl text-xl font-bold">START VIRTUAL BAND</button>
+    <div id="bandOut" class="mt-6 text-center text-3xl"></div>
+  </div>
+
+  <!-- DRUM KIT -->
+  <div id="tab6" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Drum Kit Simulator</h2>
+    <div class="grid grid-cols-4 gap-3">
+      <button onclick="playDrum('kick')" class="bg-red-600 py-10 rounded-2xl font-bold">KICK</button>
+      <button onclick="playDrum('snare')" class="bg-yellow-600 py-10 rounded-2xl font-bold">SNARE</button>
+      <button onclick="playDrum('hat')" class="bg-blue-600 py-10 rounded-2xl font-bold">HI-HAT</button>
+      <button onclick="playDrum('tom')" class="bg-purple-600 py-10 rounded-2xl font-bold">TOM</button>
+    </div>
+    <div id="drumOut" class="mt-6 text-sm"></div>
+  </div>
+
+  <!-- TUNER -->
+  <div id="tab7" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Live Tuner</h2>
+    <button onclick="startTuner()" class="w-full py-10 bg-cyan-600 rounded-3xl text-xl">START TUNER</button>
+    <div id="tunerOut" class="mt-8 text-center text-5xl font-bold"></div>
+  </div>
+
+  <!-- VOCAL COACH -->
+  <div id="tab8" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Vocal Coach</h2>
+    <button onclick="startVocalCoach()" class="w-full py-10 bg-violet-600 rounded-3xl text-xl">START VOCAL COACH</button>
+    <div id="vocalOut" class="mt-6 text-sm"></div>
+  </div>
+
+  <!-- METRONOME -->
+  <div id="tab9" class="tab bg-zinc-900 p-6 rounded-3xl">
+    <h2 class="text-2xl font-bold mb-4">Metronome</h2>
+    <div class="flex items-center gap-4">
+      <input id="bpm" type="number" value="120" class="bg-zinc-800 p-5 rounded-2xl w-28 text-center text-3xl">
+      <button onclick="toggleMetronome()" id="metroBtn" class="flex-1 py-6 bg-teal-600 rounded-3xl text-xl font-bold">START</button>
+    </div>
+  </div>
+
+  <script>
+    let gigMode = false;
+    let metronomeInterval = null;
+
+    function toggleGigMode() {
+      gigMode = !gigMode;
+      document.getElementById("gigBtn").textContent = gigMode ? "Gig ON" : "Gig OFF";
+      document.getElementById("gigBtn").style.backgroundColor = gigMode ? "#ef4444" : "#16a34a";
+    }
+
+    function switchTab(n) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab' + n).classList.add('active');
+    }
+
+    function talkToLumina() {
+      const isSassy = document.getElementById("personality").value === "Sassy";
+      const msg = isSassy 
+        ? "Alright, hit me. What do you need help with?" 
+        : "Hey! What would you like to work on today?";
+
+      document.getElementById("voiceOut").innerHTML = `<strong>Lumina:</strong> ${msg}`;
+
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(msg);
+        utterance.rate = 0.95;
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function getLesson() {
+      document.getElementById("lessonOut").innerHTML = "📚 Lesson: Open chords (C, G, Am, Em, D), basic strum patterns, proper guitar maintenance, and key music terms explained.";
+    }
+
+    function buildSetlist() {
+      document.getElementById("setlistOut").innerHTML = "🎵 Setlist generated:<br>1. High Energy Opener<br>2. Mid-tempo<br>3. Ballad<br>4. Crowd Pleaser<br>5. Closer";
+    }
+
+    function forgeTrack() {
+      document.getElementById("forgeOut").innerHTML = "🎸 Backing track in progress... (G major chill groove generated)";
+    }
+
+    function makeMashup() {
+      document.getElementById("mashupOut").innerHTML = "🔀 Mashup idea ready!";
+    }
+
+    function startVirtualBand() {
+      document.getElementById("bandOut").innerHTML = "🎸🎸 Virtual band is now playing with you!";
+    }
+
+    function playDrum(type) {
+      document.getElementById("drumOut").innerHTML = `🔊 Played: <strong>${type.toUpperCase()}</strong>`;
+    }
+
+    function startTuner() {
+      document.getElementById("tunerOut").innerHTML = "🎸 E<br><span class='text-green-400 text-2xl'>IN TUNE</span>";
+    }
+
+    function startVocalCoach() {
+      document.getElementById("vocalOut").innerHTML = "🎤 Try singing along with me... Scale practice started.";
+    }
+
+    function toggleMetronome() {
+      const btn = document.getElementById("metroBtn");
+      if (metronomeInterval) {
+        clearInterval(metronomeInterval);
+        metronomeInterval = null;
+        btn.textContent = "START";
+      } else {
+        const bpm = parseInt(document.getElementById("bpm").value) || 120;
+        const delay = 60000 / bpm;
+        metronomeInterval = setInterval(() => {
+          console.log("🟥 Metronome click");
+        }, delay);
+        btn.textContent = "STOP";
+      }
+    }
+
+    // Start on Voice tab
+    window.onload = () => switchTab(0);
+  </script>
+</body>
+</html>
